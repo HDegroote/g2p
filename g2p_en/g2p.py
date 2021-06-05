@@ -3,9 +3,9 @@
 '''
 By kyubyong park(kbpark.linguist@gmail.com) and Jongseok Kim(https://github.com/ozmig77)
 https://www.github.com/kyubyong/g2p
+Forked and adapted by Hdegroote (https://github.com/HDegroote)
 '''
 from nltk import pos_tag
-from nltk.corpus import cmudict
 import nltk
 from nltk.tokenize import TweetTokenizer
 word_tokenize = TweetTokenizer().tokenize
@@ -15,16 +15,12 @@ import re
 import os
 import unicodedata
 from builtins import str as unicode
-from .expand import normalize_numbers
+from g2p_en.expand import normalize_numbers
 
 try:
     nltk.data.find('taggers/averaged_perceptron_tagger.zip')
 except LookupError:
     nltk.download('averaged_perceptron_tagger')
-try:
-    nltk.data.find('corpora/cmudict.zip')
-except LookupError:
-    nltk.download('cmudict')
 
 dirname = os.path.dirname(__file__)
 
@@ -67,7 +63,6 @@ class G2p(object):
         self.p2idx = {p: idx for idx, p in enumerate(self.phonemes)}
         self.idx2p = {idx: p for idx, p in enumerate(self.phonemes)}
 
-        self.cmu = cmudict.dict()
         self.load_variables()
         self.homograph2features = construct_homograph_dictionary()
 
@@ -172,11 +167,8 @@ class G2p(object):
                     pron = pron1
                 else:
                     pron = pron2
-            elif word in self.cmu:  # lookup CMU dict
-                pron = self.cmu[word][0]
             else: # predict for oov
                 pron = self.predict(word)
-
             prons.extend(pron)
             prons.extend([" "])
 

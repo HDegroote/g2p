@@ -3,6 +3,9 @@
 
 # g2pE: A Simple Python Module for English Grapheme To Phoneme Conversion
 
+Fork note: the only change is that the CMU dict is never used.
+Everything else, including the remainder of this readme, are left unchanged 
+
 * [v.2.0] We removed TensorFlow from the dependencies. After all, it changes its APIs quite often, and we don't expect you to have a GPU. Instead, NumPy is used for inference.
 
 This module is designed to convert English graphemes (spelling) to phonemes (pronunciation).
